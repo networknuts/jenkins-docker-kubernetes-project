@@ -1,6 +1,6 @@
 pipeline {
     agent {
-      label 'docker_node'
+      label 'builtin_node'
     }
     parameters {
         string(name: 'DOCKER_TAG', description: 'Enter the tag for the Docker image', defaultValue: 'latest')
