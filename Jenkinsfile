@@ -20,6 +20,9 @@ pipeline {
         }
 
         stage('Scan Dockerfile with SonarQube') {
+            tools {
+                jdk "jdk17"
+            }
             steps {
                 script {
                     // Assuming you have SonarQube scanner configured in Jenkins
