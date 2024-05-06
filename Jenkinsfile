@@ -24,7 +24,7 @@ pipeline {
                 script {
                     // Assuming you have SonarQube scanner configured in Jenkins
                     def scannerHome = tool 'SonarQubeScanner'
-                    withSonarQubeEnv('SonarQube') {
+                    withSonarQubeEnv('SonarQubeScanner') {
                         sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectBaseDir=. -Dsonar.sources=. -Dsonar.host.url=192.168.1.11:9000 -Dsonar.login=${env.SONARQUBE_TOKEN}"
                     }
                 }
