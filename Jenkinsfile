@@ -14,7 +14,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the Git repository containing the Dockerfile
-                git branch: docker,
+                git branch: main,
                   url: 'https://github.com/networknuts/jenkins-docker-project.git'
             }
         }
