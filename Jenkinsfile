@@ -18,22 +18,10 @@ pipeline {
                 script {
                     // Make sure Docker is installed and configured properly on Jenkins
                     def dockerImage = docker.build("python-jenkins-app:${params.DOCKER_TAG}", "-f Dockerfile .")
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+                    docker.withRegistry('', 'dockerhub-credentials') {
                                         dockerImage.push("${params.DOCKER_TAG}")
                     }
                     // You can add any additional build arguments if needed
-                }
-            }
-        }
-
-        stage('Push Docker Image to Docker Hub') {
-            steps {
-                script {
-                    // Make sure you have DockerHub credentials configured in Jenkins
-                    docker.withRegistry('', 'dockerhub-credentials') {
-                        // Push the built Docker image to Docker Hub
-                        dockerImage.push("${params.DOCKER_TAG}")
-                    }
                 }
             }
         }
