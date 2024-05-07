@@ -19,9 +19,18 @@ pipeline {
                     // Make sure Docker is installed and configured properly on Jenkins
                     def dockerImage = docker.build("docker.io/aryansr/python-jenkins-app:${params.DOCKER_TAG}", "-f Dockerfile .")
                     docker.withRegistry('', 'dockerhub-credentials') {
-                                        dockerImage.push("${params.DOCKER_TAG}")
+                        dockerImage.push("${params.DOCKER_TAG}")
                     }
                     // You can add any additional build arguments if needed
+                }
+            }
+        }
+
+        stage('Scan Docker Image for Vulnerabilities') {
+            steps {
+                script {
+                    // Use Trivy to scan the Docker image for vulnerabilities
+                    docker.image('aquasec/trivy:latest').run("--no-progress docker.io/aryansr/python-jenkins-app:${params.DOCKER_TAG}")
                 }
             }
         }
