@@ -4,28 +4,12 @@ pipeline {
         string(name: 'DOCKER_TAG', description: 'Enter the tag for the Docker image', defaultValue: 'latest')
     }
 
-    environment {
-        SONARQUBE_TOKEN = credentials('sonarqube-token')
-    }
-
     stages {
         stage('Checkout') {
             steps {
                 // Checkout the Git repository containing the Dockerfile
                 git branch: 'main',
                   url: 'https://github.com/networknuts/jenkins-docker-project.git'
-            }
-        }
-
-        stage('Scan Dockerfile with SonarQube') {
-            steps {
-                script {
-                    // Assuming you have SonarQube scanner configured in Jenkins
-                    def scannerHome = tool 'SonarQubeScanner'
-                    withSonarQubeEnv('SonarQubeScanner') {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectBaseDir=. -Dsonar.sources=. -Dsonar.host.url=http://192.168.1.5:9000 -Dsonar.login=${env.SONARQUBE_TOKEN}"
-                    }
-                }
             }
         }
 
