@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-      label 'builtin_node'
-    }
+    agent any
     parameters {
         string(name: 'DOCKER_TAG', description: 'Enter the tag for the Docker image', defaultValue: 'latest')
     }
@@ -20,9 +18,6 @@ pipeline {
         }
 
         stage('Scan Dockerfile with SonarQube') {
-            tools {
-                jdk "jdk17"
-            }
             steps {
                 script {
                     // Assuming you have SonarQube scanner configured in Jenkins
