@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Use Trivy to scan the Docker image for vulnerabilities
-                    docker.image('aquasec/trivy:latest').run("--no-progress docker.io/aryansr/python-jenkins-app:${params.DOCKER_TAG}")
+                    docker.image('aquasec/trivy:latest').run("docker.io/aryansr/python-jenkins-app:${params.DOCKER_TAG}")
                 }
             }
         }
