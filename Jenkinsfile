@@ -28,10 +28,7 @@ pipeline {
 
         stage('Scan Docker Image for Vulnerabilities') {
             steps {
-                script {
-                    // Use Trivy to scan the Docker image for vulnerabilities
-                    docker.image('aquasec/trivy:latest').run("docker.io/aryansr/python-jenkins-app:${params.DOCKER_TAG}")
-                }
+                sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy:0.51.1 image docker.io/aryansr/python-jenkins-app:${params.DOCKER_TAG}"
             }
         }
     }
