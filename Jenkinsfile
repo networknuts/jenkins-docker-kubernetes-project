@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the Git repository containing the Dockerfile
+                // Checkout the Git repository containing the Dockerfile and deployment.yaml
                 git branch: 'main',
                   url: 'https://github.com/networknuts/jenkins-docker-project.git'
             }
@@ -28,7 +28,28 @@ pipeline {
 
         stage('Scan Docker Image for Vulnerabilities') {
             steps {
-                sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy:0.51.1 image docker.io/aryansr/python-jenkins-app:${params.DOCKER_TAG}"
+                script {
+                    // Use Trivy to scan the Docker image for vulnerabilities
+                    docker.image('aquasec/trivy:latest').run("--no-progress docker.io/aryansr/python-jenkins-app:${params.DOCKER_TAG}")
+                }
+            }
+        }
+
+        stage('Update Image Tag in deployment.yaml') {
+            steps {
+                script {
+                    // Replace the image tag in deployment.yaml with the specified DOCKER_TAG
+                    sh "sed -i 's|image:.*|image: docker.io/aryansr/python-jenkins-app:${params.DOCKER_TAG}|g' deployment.yaml"
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes Cluster') {
+            steps {
+                script {
+                    // Apply the modified Kubernetes deployment YAML
+                    sh 'oc apply -f deployment.yaml'
+                }
             }
         }
     }
