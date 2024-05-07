@@ -9,7 +9,7 @@ pipeline {
             steps {
                 // Checkout the Git repository containing the Dockerfile and deployment.yaml
                 git branch: 'main',
-                  url: 'https://github.com/networknuts/jenkins-docker-project.git'
+                  url: 'https://github.com/networknuts/jenkins-docker-kubernetes-project.git'
             }
         }
 
