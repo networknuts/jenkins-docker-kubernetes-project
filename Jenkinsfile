@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Make sure you have DockerHub credentials configured in Jenkins
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+                    docker.withRegistry('', 'dockerhub-credentials') {
                         // Push the built Docker image to Docker Hub
                         dockerImage.push("${params.DOCKER_TAG}")
                     }
