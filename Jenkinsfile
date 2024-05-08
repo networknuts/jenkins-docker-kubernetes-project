@@ -41,7 +41,7 @@ pipeline {
             }
         }
 
-        stage('Login to Kubernetes Cluster') {
+        stage('Deploy to Kubernetes Cluster') {
             steps {
                 script {
                     // Retrieve kubeconfig secret from Jenkins credentials
