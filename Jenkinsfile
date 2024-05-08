@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     // Retrieve kubeconfig secret from Jenkins credentials
-                    withKubeConfig([credentialsId: 'kubernetes-config', serverUrl: 'https://networknuts-dns-82a419qb.hcp.centralindia.azmk8s.io:443']) {
+                    withKubeConfig([credentialsId: 'kubernetes-config', serverUrl: 'https://networknuts-dns-82a419qb.hcp.centralindia.azmk8s.io']) {
                         // Authenticate with Kubernetes cluster
                         sh 'kubectl apply -f deployment.yaml'
                     }
