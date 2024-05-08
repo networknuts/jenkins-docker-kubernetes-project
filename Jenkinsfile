@@ -45,21 +45,10 @@ pipeline {
             steps {
                 script {
                     // Retrieve kubeconfig secret from Jenkins credentials
-                    withCredentials([file(credentialsId: 'kubernetes-config', variable: 'KUBECONFIG_FILE')]) {
-                        // Set kubeconfig environment variable
-                        env.KUBECONFIG = sh(script: 'echo $KUBECONFIG_FILE', returnStdout: true).trim()
+                    withKubeConfig([credentialsId: 'kubernetes-config', serverUrl: 'networknuts-dns-82a419qb.hcp.centralindia.azmk8s.io']) {
                         // Authenticate with Kubernetes cluster
-                        sh 'kubectl version'
+                        sh 'kubectl apply -f deployment.yaml'
                     }
-                }
-            }
-        }
-
-        stage('Deploy to Kubernetes Cluster') {
-            steps {
-                script {
-                    // Apply the modified Kubernetes deployment YAML
-                    sh 'kubectl apply -f deployment.yaml'
                 }
             }
         }
