@@ -20,8 +20,12 @@ pipeline {
             }
         }
         stage('Upload Docker Image') {
-            docker.withRegistry('','docker-creds') {
-                dockerImage.push("${params.DOCKER_TAG}")
+            steps {
+                script {
+                    docker.withRegistry('','docker-creds') {
+                    dockerImage.push("${params.DOCKER_TAG}")
+                }
+            }
             }
         }
         stage('Scan Docker Image') {
