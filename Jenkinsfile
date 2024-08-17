@@ -16,16 +16,10 @@ pipeline {
                 script {
                     // Make sure that Docker is installed and configured before reaching here
                     def dockerImage = docker.build("docker.io/aryansr/kube-app:${params.DOCKER_TAG}","-f Dockerfile .")
-                }
-            }
-        }
-        stage('Upload Docker Image') {
-            steps {
-                script {
                     docker.withRegistry('','docker-creds') {
-                    dockerImage.push("${params.DOCKER_TAG}")
+                        dockerImage.push("${params.DOCKER_TAG}")
+                    }
                 }
-            }
             }
         }
         stage('Scan Docker Image') {
